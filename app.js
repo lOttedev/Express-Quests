@@ -12,15 +12,15 @@ const welcome = (req, res) => {
 
 app.get("/", welcome);
 
-const movieHandlers = require("./movieHandlers");
+const { getMovies, getMovieById } = require("./movieHandlers.js");
 
-app.get("/api/movies", movieHandlers.getMovies);
-app.get("/api/movies/:id", movieHandlers.getMovieById);
+app.get("/api/movies", getMovies);
+app.get("/api/movies/:id", getMovieById);
 
-const userHandlers = require("./userHandlers");
+const { getUsers, getUserById } = require("./userHandlers.js");
 
-app.get("/api/users", userHandlers.getUsers);
-app.get("/api/users/:id", userHandlers.getUserById);
+app.get("/api/users", getUsers);
+app.get("/api/users/:id", getUserById);
 
 app.listen(port, (err) => {
   if (err) {

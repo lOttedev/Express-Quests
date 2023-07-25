@@ -1,38 +1,33 @@
-const users = [
-  {
-    id: 1,
-    firstname: "Bob",
-    lastname: "l'éponge",
-    age: "22",
-  },
-  {
-    id: 2,
-    firstname: "Patrick",
-    lastname: "l'étoile de mer",
-    age: "25",
-  },
-  {
-    id: 3,
-    firstname: "Carlos",
-    lastname: "le poulpe",
-    age: "45",
-  },
-];
+const database = require("./database.js");
 
 const getUsers = (req, res) => {
-  res.status(200).json(users);
+  database
+  .query("select * from users")
+  .then(([users]) =>{
+      res.status(200).json(users);
+  } )
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500).send("Error retrieving data from database");
+  })
 };
 
 const getUserById = (req, res) => {
   const id = parseInt(req.params.id);
 
-  const user = users.find((user) => user.id === id);
-
-  if (user) {
-    res.status(200).json(user);
-  } else {
-    res.status(404).send("User Not Found");
-  }
+  database
+  .query("select * from users where id = ?", [id])
+  .then(([user]) =>{
+    if (user[0] != null){
+      res.status(200).json(user[0]);
+    } else{
+      res.sendStatus(404)
+    }
+  } )
+  .catch((err) => {
+    console.error(err);
+    res.sendStatus(500);
+  })
 };
 
 module.exports = {
