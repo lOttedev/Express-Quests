@@ -109,6 +109,7 @@ const getMovieById = (req, res) => {
       res.status(500).send("Error retrieving data from database");
     });
 };
+
 module.exports = {
   getMovies,
   getMovieById,
